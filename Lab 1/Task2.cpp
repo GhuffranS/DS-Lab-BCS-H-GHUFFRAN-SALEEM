@@ -1,6 +1,23 @@
 #include <iostream>
 using namespace std;
 
+int stringLength(const char* str) {
+    int length = 0;
+    while (str[length] != '\0') {
+        length++;
+    }
+    return length;
+}
+
+void stringCopy(char* dest, const char* src) {
+    int i = 0;
+    while (src[i] != '\0') {
+        dest[i] = src[i];
+        i++;
+    }
+    dest[i] = '\0';
+}
+
 class Exam {
 private:
     char* studentName;
@@ -9,11 +26,13 @@ private:
 
 public:
     Exam(const char* name, const char* date, double s) {
-        studentName = new char[strlen(name) + 1];
-        strcpy(studentName, name);
+        int nameLength = stringLength(name);
+        studentName = new char[nameLength + 1];
+        stringCopy(studentName, name);
 
-        examDate = new char[strlen(date) + 1];
-        strcpy(examDate, date);
+        int dateLength = stringLength(date);
+        examDate = new char[dateLength + 1];
+        stringCopy(examDate, date);
 
         score = s;
     }
@@ -35,20 +54,21 @@ public:
 };
 
 int main() {
-    Exam exam1("Babar Azam", "20-10-2025", 85.5);
-    cout << "Details of exam1:" << endl;
+    Exam exam1("Babar Azam", "20-05-25", 95.5);
+    cout << "Original Exam Details:" << endl;
     exam1.displayDetails();
 
-    Exam exam2 = exam1; //shallow copy
-    cout << "Details of exam2 :" << endl;
+    Exam exam2 = exam1;
+    cout << "\nShallow Copy Exam Details:" << endl;
     exam2.displayDetails();
 
-    exam1.setScore(92.0); //shallow copy
-    cout << "After modifying exam1's score to 92.0:" << endl;
-    cout << "Details of exam1:" << endl;
+    exam1.setScore(88.0);
+    cout << "\nAfter modifying the score of the original exam:" << endl;
+    cout << "Exam 1:" << endl;
     exam1.displayDetails();
-    cout << "Details of exam2 :" << endl;
+    cout << "Exam 2 (Note the score is not changed):" << endl;
     exam2.displayDetails();
-
+    
     return 0;
 }
+
